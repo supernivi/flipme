@@ -34,6 +34,7 @@ body {
     position: relative;
     transform: scale(1);
     transform-style: preserve-3d;
+    -webkit-transform-style: preserve 3d;;
     transition: transform .5s;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
 }
@@ -55,7 +56,8 @@ body {
     position: absolute;
     border-radius: 12px;
     /* background: #019787; */
-    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+     backface-visibility: hidden;
 }
 
 .front-face {
