@@ -44,7 +44,7 @@ function flipCard() {
   checkForMatch();
   if (cardLeft === 0) isCompleted();
   // hack
-  isCompleted();
+  // isCompleted();
 }
 
 function isFinish() {
