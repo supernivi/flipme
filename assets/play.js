@@ -1,9 +1,9 @@
 // let backgroundMusic = new Audio('./assets/sound/background.ogg');
 // backgroundMusic.volume = 0.5;
 // backgroundMusic.loop = true;
-hideStart();
+// hideStart();
 hideMiddle();
-$('#end').show();
+$('#end').hide();
 
 let flipSound = new Audio('./assets/sound/flip.ogg');
 let matchSound = new Audio('./assets/sound/match.ogg');
