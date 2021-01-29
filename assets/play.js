@@ -54,6 +54,7 @@ function isFinish() {
       $('#end').show();
       $('#content').html("Congrats, you've got a photographic memory!");
       document.getElementById('flips').innerHTML = flip;
+      document.getElementById('time').innerHTML = final.time;
       $('#hd').hide();
     }, 2000);
   }
@@ -172,7 +173,6 @@ $('#submitform').click(() => {
   final.name = $('#inputname').val();
   final.email = $('#inputemail').val();
   final.flip = flip;
-  console.log(final);
   $('#submitform').text('Submitting...');
   sendData().then(() => isFinish());
 });
@@ -182,7 +182,7 @@ async function sendData() {
   formdata.append('email', final.email);
   formdata.append('name', final.name);
   formdata.append('time', final.time);
-  formdata.append('flips', final.flips);
+  formdata.append('flips', final.flip);
 
   var requestOptions = {
     method: 'POST',
