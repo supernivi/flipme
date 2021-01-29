@@ -1,8 +1,6 @@
-// let backgroundMusic = new Audio('./assets/sound/background.ogg');
-// backgroundMusic.volume = 0.5;
-// backgroundMusic.loop = true;
 // hideStart();
 hideMiddle();
+// $('#end').show();
 $('#end').hide();
 
 let flipSound = new Audio('./assets/sound/flip.ogg');
@@ -178,13 +176,25 @@ function showBanner() {
   $('#banner').show();
 }
 
-$('#submitform').click(() => {
-  $('#submitform').attr('disabled', true);
-  final.name = $('#inputname').val();
-  final.email = $('#inputemail').val();
-  final.flip = flip;
-  $('#submitform').text('Submitting...');
-  sendData().then(() => isFinish());
+$(document).ready(function () {
+  // Invite friends button
+  $(document).on('click', '#shareButton', () => {
+    $('body').append('<input id="copyURL" type="text" value="" />');
+    $('#copyURL').val('https://flipme.artfervour.com').select();
+    document.execCommand('copy');
+    $('#copyURL').remove();
+    $('#shareButton').text('Link Copied!');
+    setTimeout(() => $('#shareButton').text('INVITE FRIENDS'), 5000);
+  });
+  // Form submit button
+  $('#submitform').click(() => {
+    $('#submitform').attr('disabled', true);
+    final.name = $('#inputname').val();
+    final.email = $('#inputemail').val();
+    final.flip = flip;
+    $('#submitform').text('Submitting...');
+    sendData().then(() => isFinish());
+  });
 });
 
 async function sendData() {
