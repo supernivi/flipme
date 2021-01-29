@@ -1,9 +1,9 @@
 // let backgroundMusic = new Audio('./assets/sound/background.ogg');
 // backgroundMusic.volume = 0.5;
 // backgroundMusic.loop = true;
-
+hideStart();
 hideMiddle();
-$('#end').hide();
+$('#end').show();
 
 let flipSound = new Audio('./assets/sound/flip.ogg');
 let matchSound = new Audio('./assets/sound/match.ogg');
@@ -43,6 +43,8 @@ function flipCard() {
   secondCard = this;
   checkForMatch();
   if (cardLeft === 0) isCompleted();
+  // hack
+  isCompleted();
 }
 
 function isFinish() {

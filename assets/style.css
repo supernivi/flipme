@@ -100,7 +100,7 @@ body {
 
 #inst {
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 1rem;
   margin-top: 1.4rem;
   font-weight: 400;
 }
@@ -113,7 +113,6 @@ body {
   text-align: center;
   justify-content: center;
   clear: both;
-  padding-top: 140px;
 }
 
 #social-text {
