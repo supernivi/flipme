@@ -2,8 +2,7 @@
 // backgroundMusic.volume = 0.5;
 // backgroundMusic.loop = true;
 
-hideStart();
-
+hideMiddle();
 $('#end').hide();
 
 let flipSound = new Audio('./assets/sound/flip.ogg');
@@ -19,6 +18,12 @@ let cardLeft = cards.length;
 let interval = null;
 let flip = 0;
 let matches = 0;
+let final = {
+  flip: 0,
+  time: 0,
+  name: '',
+  email: '',
+};
 
 function flipCard() {
   flipSound.play();
@@ -37,15 +42,15 @@ function flipCard() {
   }
   secondCard = this;
   checkForMatch();
-  isFinish();
+  if (cardLeft === 0) isCompleted();
 }
 
 function isFinish() {
   if (cardLeft === 0) {
-    // backgroundMusic.pause();
     clearInterval(interval);
     setInterval(() => {
       hideStart();
+      hideMiddle();
       $('#end').show();
       $('#content').html("Congrats, you've got a photographic memory!");
       document.getElementById('flips').innerHTML = flip;
@@ -58,20 +63,19 @@ function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
 
   if (isMatch) {
-    if (firstCard.dataset.framework == 1) {
+    if (firstCard.dataset.framework == 1)
       document.getElementById('artName').innerHTML =
         "Amedeo Modigliani, 'Red-headed Girl in Evening Dress', 1918";
-    } else if (firstCard.dataset.framework == 2) {
+    else if (firstCard.dataset.framework == 2)
       document.getElementById('artName').innerHTML = "Edouard Manet, 'In the Conservatory', 1879";
-    } else if (firstCard.dataset.framework == 3) {
+    else if (firstCard.dataset.framework == 3)
       document.getElementById('artName').innerHTML = "Juan Gris, 'Portrait of Pablo Picasso', 1912";
-    } else if (firstCard.dataset.framework == 4) {
+    else if (firstCard.dataset.framework == 4)
       document.getElementById('artName').innerHTML = "Roy Lichtenstein, 'Hopeless', 1963";
-    } else if (firstCard.dataset.framework == 5) {
+    else if (firstCard.dataset.framework == 5)
       document.getElementById('artName').innerHTML = "Johannes Vermeer, 'The Lacemaker', 1669";
-    } else if (firstCard.dataset.framework == 6) {
+    else if (firstCard.dataset.framework == 6)
       document.getElementById('artName').innerHTML = "Man Ray, 'Portrait of Rose Selavy', 1921";
-    }
   }
 
   isMatch ? disableCards() : unflipCards();
@@ -115,27 +119,15 @@ function time() {
   let x = 1;
   interval = setInterval(() => {
     document.getElementById('time-remaining').innerHTML = x + 's';
+    final.time = x;
     window.localStorage.setItem('currentTime', x);
     x++;
-    if (x == 120) {
-      clearInterval(interval);
-      hideStart();
-      hideMiddle();
-      $('#end').show();
-      $('#content').html("Oops, looks like you're all out of time!");
-      document.getElementById('flips').innerHTML = flip;
-      document.getElementById('match').innerHTML = matches;
-    }
   }, 1000);
 }
 
 function startGame() {
-  // backgroundMusic.play();
-
   time();
-
   shuffleCards();
-
   // add event for each card can clicked
   cards.forEach((card) => card.addEventListener('click', flipCard));
 }
@@ -147,7 +139,11 @@ startGame();
 // -----------------
 
 // When user finishes game
-function isCompleted() {}
+function isCompleted() {
+  clearInterval(interval);
+  hideStart();
+  showMiddle();
+}
 
 function hideStart() {
   $('.time').hide();
@@ -164,9 +160,46 @@ function showStart() {
 }
 
 function hideMiddle() {
-  $('$middle').hide();
+  $('#middle').hide();
 }
 
 function showMiddle() {
-  $('$middle').show();
+  $('#middle').show();
+}
+
+$('#submitform').click(() => {
+  $('#submitform').attr('disabled', true);
+  final.name = $('#inputname').val();
+  final.email = $('#inputemail').val();
+  final.flip = flip;
+  console.log(final);
+  $('#submitform').text('Submitting...');
+  sendData().then(() => isFinish());
+});
+
+async function sendData() {
+  var formdata = new FormData();
+  formdata.append('email', final.email);
+  formdata.append('name', final.name);
+  formdata.append('time', final.time);
+  formdata.append('flips', final.flips);
+
+  var requestOptions = {
+    method: 'POST',
+    body: formdata,
+    redirect: 'follow',
+  };
+
+  try {
+    const response = await fetch(
+      'https://script.google.com/macros/s/AKfycbyxWu6bC13FcZIb2GEdz38jHKzuVyTm1Pm2K53Ha4W4V53c1dfXjbJv_w/exec',
+      requestOptions
+    );
+    const result_1 = await response.text();
+    return console.log(result_1);
+  } catch (error) {
+    $('#submitform').text('Submit');
+    $('#submitform').attr('disabled', false);
+    return console.log('error', error);
+  }
 }
