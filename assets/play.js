@@ -46,18 +46,16 @@ function flipCard() {
 }
 
 function isFinish() {
-  if (cardLeft === 0) {
-    clearInterval(interval);
-    setInterval(() => {
-      hideStart();
-      hideMiddle();
-      $('#end').show();
-      $('#content').html("Congrats, you've got a photographic memory!");
-      document.getElementById('flips').innerHTML = flip;
-      document.getElementById('time').innerHTML = final.time;
-      $('#hd').hide();
-    }, 2000);
-  }
+  clearInterval(interval);
+  setInterval(() => {
+    hideStart();
+    hideMiddle();
+    $('#end').show();
+    $('#content').html("Congrats, you've got a photographic memory!");
+    document.getElementById('flips').innerHTML = flip;
+    document.getElementById('time').innerHTML = final.time;
+    $('#hd').hide();
+  }, 2000);
 }
 
 function checkForMatch() {
@@ -151,6 +149,7 @@ function hideStart() {
   $('#board').hide();
   $('#artName').hide();
   $('#inst').hide();
+  hideBanner();
 }
 
 function showStart() {
@@ -158,6 +157,7 @@ function showStart() {
   $('#board').show();
   $('#artName').show();
   $('#inst').show();
+  showBanner();
 }
 
 function hideMiddle() {
@@ -166,6 +166,14 @@ function hideMiddle() {
 
 function showMiddle() {
   $('#middle').show();
+}
+
+function hideBanner() {
+  $('#banner').hide();
+}
+
+function showBanner() {
+  $('#banner').show();
 }
 
 $('#submitform').click(() => {
