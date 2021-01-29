@@ -2,6 +2,8 @@
 // backgroundMusic.volume = 0.5;
 // backgroundMusic.loop = true;
 
+hideStart();
+
 $('#end').hide();
 
 let flipSound = new Audio('./assets/sound/flip.ogg');
@@ -43,10 +45,7 @@ function isFinish() {
     // backgroundMusic.pause();
     clearInterval(interval);
     setInterval(() => {
-      $('.time').hide();
-      $('#board').hide();
-      $('#artName').hide();
-      $('#inst').hide();
+      hideStart();
       $('#end').show();
       $('#content').html("Congrats, you've got a photographic memory!");
       document.getElementById('flips').innerHTML = flip;
@@ -119,12 +118,11 @@ function time() {
     window.localStorage.setItem('currentTime', x);
     x++;
     if (x == 120) {
-      $('.time').hide();
-      $('#board').hide();
-      $('#artName').hide();
-      $('#inst').hide();
+      clearInterval(interval);
+      hideStart();
+      hideMiddle();
       $('#end').show();
-      $('#content').html("Oops, looks like you're all out of time! ");
+      $('#content').html("Oops, looks like you're all out of time!");
       document.getElementById('flips').innerHTML = flip;
       document.getElementById('match').innerHTML = matches;
     }
@@ -143,3 +141,32 @@ function startGame() {
 }
 
 startGame();
+
+// -----------------
+// Suraj 29 Jan 2021
+// -----------------
+
+// When user finishes game
+function isCompleted() {}
+
+function hideStart() {
+  $('.time').hide();
+  $('#board').hide();
+  $('#artName').hide();
+  $('#inst').hide();
+}
+
+function showStart() {
+  $('.time').show();
+  $('#board').show();
+  $('#artName').show();
+  $('#inst').show();
+}
+
+function hideMiddle() {
+  $('$middle').hide();
+}
+
+function showMiddle() {
+  $('$middle').show();
+}
